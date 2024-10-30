@@ -1,0 +1,19 @@
+<!-- app/templates/products.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Product Card{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_card.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Our Products</h2>
+<ul>
+    {% for product in products %}
+        <h3>Category - {{ product.category }}</h3>
+        <li>{{ product.name }} - {{ product.price }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

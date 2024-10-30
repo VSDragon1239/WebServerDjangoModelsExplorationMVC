@@ -1,0 +1,17 @@
+<!-- app/templates/index.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <h2>Welcome to the Home Page</h2>
+        <p>This is the main page of our Django MVVM app.</p>
+    </div>
+{% endblock %}

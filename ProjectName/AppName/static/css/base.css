@@ -1,0 +1,112 @@
+/* /static/css/base.css */
+@font-face {
+    font-family: "Jura";
+    src: url("fonts/Jura.ttf");
+}
+:root {
+    --global-color-element: rgb(0, 147, 194);
+    --global-background-color-element: rgb(1, 63, 139);
+    --global-side-background-color-element: rgba(0, 147, 194, 30%);
+
+
+    --header-background-color: #87d5f3;
+    --header-color-button: rgb(0, 220, 255);
+    --header-color-border-button: rgb(0, 220, 255);
+
+    --header-color-button-hover: rgb(0, 147, 194);
+    --header-color-border-button-hover: rgb(0, 147, 194);
+
+    --header-color-button-active: rgb(2, 67, 151);
+    --header-color-border-button-active: rgb(2, 67, 151);
+
+
+    --footer-background-color: #333;
+
+}
+
+body {
+    font-family: "Jura", serif;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--global-background-color-element);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    color: #fff;
+    border-radius: 10px;
+    background-color: var(--header-background-color);
+}
+
+.header-block-1 {
+    display: flex;
+    align-items: center;
+    background-color: var(--global-color-element);
+    color: #fff;
+    border-radius: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.header-block-2 {
+    display: flex;
+    align-items: center;
+    background-color: var(--global-side-background-color-element);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.header-block-2 nav {
+    display: flex;
+}
+
+.header-block-2 a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px 5px;
+    width: 200px;
+    height: 45px;
+
+    border-radius: 10px;
+    background: var(--header-color-button);
+
+    text-decoration: none;
+    font-size: 24px;
+    color: black;
+}
+
+.header-block-2 a:hover {
+    color: white;
+    background-color: var(--header-color-button-hover);
+    border-color: var(--header-color-border-button-hover);
+    cursor: pointer;
+}
+
+.header-block-2 a:active {
+    color: #a1ffff;
+    background-color: var(--header-color-button-active);
+    border-color: var(--header-color-border-button-active);
+    cursor: pointer;
+}
+
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+footer {
+    background-color: var(--footer-background-color);
+    text-align: center;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 10px;
+    color: #fff;
+    border-radius: 10px;
+}
