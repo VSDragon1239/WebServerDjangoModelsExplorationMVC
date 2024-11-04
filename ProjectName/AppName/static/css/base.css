@@ -1,7 +1,7 @@
 /* /static/css/base.css */
 @font-face {
     font-family: "Jura";
-    src: url("fonts/Jura.ttf");
+    src: url("../fonts/Jura.ttf");
 }
 :root {
     --global-color-element: rgb(0, 147, 194);
@@ -98,6 +98,43 @@ main {
     flex-grow: 1;
     padding: 20px;
 }
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 45px;
+
+    border-radius: 10px;
+    background: var(--header-color-button);
+
+    text-decoration: none;
+    font-size: 24px;
+    color: black;
+}
+
+.button:hover {
+    color: white;
+    background-color: var(--header-color-button-hover);
+    border-color: var(--header-color-border-button-hover);
+    cursor: pointer;
+}
+
+.button:active {
+    color: #a1ffff;
+    background-color: var(--header-color-button-active);
+    border-color: var(--header-color-border-button-active);
+    cursor: pointer;
+}
+
+.block-h3 {
+    background-color: var(--global-side-background-color-element);
+    padding: 16px;
+    margin: 0 12px;
+    border-radius: 10px;
+}
+
 
 footer {
     background-color: var(--footer-background-color);

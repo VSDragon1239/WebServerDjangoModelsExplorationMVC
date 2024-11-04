@@ -1,10 +1,10 @@
-.products {
+.categories {
     display: grid;
-    grid-template-columns: repeat(5, minmax(200px, 419px));
+    grid-template-columns: repeat(7, minmax(256px, 512px));
     padding: 5px;
 }
 
-.products a {
+.categories a {
     display: flex;
     align-items: end;
     justify-content: center;
@@ -24,14 +24,14 @@
 
 }
 
-.products a:hover {
+.categories a:hover {
     color: white;
-    background-color: var(--global-background-color-element);
+    background-color: var(--header-color-button-hover);
     border-color: var(--header-color-border-button-hover);
     cursor: pointer;
 }
 
-.products a h3 {
+.categories a h3 {
     background-color: var(--header-color-button-hover);
     padding: 8px;
     width: 256px;
@@ -42,6 +42,6 @@
     border-radius: 0 0 10px 10px;
 }
 
-.products a h3:hover {
+.categories a h3:hover {
     cursor: default;
 }

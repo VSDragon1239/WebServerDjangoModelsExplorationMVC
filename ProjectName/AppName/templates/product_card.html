@@ -9,11 +9,12 @@
 {% endblock %}
 
 {% block content %}
-<h2>Our Products</h2>
-<ul>
-    {% for product in products %}
-        <h3>Category - {{ product.category }}</h3>
-        <li>{{ product.name }} - {{ product.price }}</li>
-    {% endfor %}
-</ul>
+<div class="block-h3">
+        <a class="button" href="{% url 'categories' %}{{ pk }}">Назад</a>
+
+        <h2>/{{ product.category }}/{{ product.name }}/</h2>
+    </div>
+        <h4>Цена - {{ product.price }}</h4>
+        {{ product.descriptions }}
+
 {% endblock %}
