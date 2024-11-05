@@ -9,8 +9,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class="block-h3">
+    <div class="block-h2">
         <h2>Our Categories</h2>
+    </div>
+    <div class="block-buttons">
+        <a class="button" href="{% url 'home' %}">Домой</a>
+        <a class="button" href="{% url 'add_category' %}">Добавить категорию</a>
     </div>
     <div class="categories">
         {% for category in categories %}

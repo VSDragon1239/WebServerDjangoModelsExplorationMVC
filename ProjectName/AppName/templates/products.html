@@ -10,16 +10,19 @@
 
 {% block content %}
 
-    <div class="block-h3">
-        <a class="button" href="{% url 'categories' %}">Назад</a>
-        {% for product in products %}
-            <h2>/{{ product.category }}/</h2>
-        {% endfor %}
+    <div class="block-h2">
+        <h2>/{{ product.category }}/</h2>
     </div>
+    <div class="block-buttons">
+        <a class="button" href="{% url 'categories' %}">Назад</a>
+        <a class="button" href="{{ pk }}/change">Изменить категорию</a>
+        <a class="button" href="{{ pk }}/products/add">Добавить продукт</a>
+    </div>
+
     <div class="products">
         {% for product in products %}
-            <a href="{{ pk }}/{{ product.id }}">
-                    <h3>{{ product.name }} - {{ product.price }}</h3>
+            <a href="{{ pk }}/products/{{ product.id }}">
+                <h3>{{ product.name }} - {{ product.price }}</h3>
             </a>
         {% endfor %}
     </div>

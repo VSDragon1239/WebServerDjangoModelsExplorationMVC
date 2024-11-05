@@ -1,8 +1,19 @@
 # /views.py - Через класс - = ПРИМЕР =
+from django.http import HttpRequest
+from django.shortcuts import redirect, get_object_or_404
+from django.utils.decorators import method_decorator
+from django.utils.text import slugify
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
 
 from AppName.viewmodels.categories_viewmodel import CategoriesViewModel
 from AppName.viewmodels.products_viewmodel import ProductsViewModel
+
+from AppName.forms import CategoryForm
+
+from AppName.models import Category
+
+from AppName.forms import CategoryEditForm
 
 
 class IndexView(TemplateView):
@@ -56,6 +67,10 @@ class ProductsView(TemplateView):
 
         # Добавляем продукты в контекст
         context["products"] = self.products
+        try:
+            context["product"] = self.products[0]
+        except IndexError as e:
+            print(e)
         context["pk"] = pk
 
         return context
@@ -105,4 +120,92 @@ class ProductCardView(TemplateView):
         context["product"] = self.product
         context["pk"] = pk
         context["pk2"] = pk2
+        return context
+
+
+class ChangeCategoryView(TemplateView):
+    template_name = 'change_category.html'
+
+    form = CategoryEditForm()
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        category = get_object_or_404(Category, pk=pk)
+        form = CategoryEditForm(instance=category)
+        return self.render_to_response({'form': form, 'pk': pk})
+
+    def get_context_data(self, **kwargs):
+        pk = kwargs.get('pk')
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        category = Category.objects.get(pk=pk)
+        context['name'] = category.name
+        return context
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        pk = kwargs.get('pk')
+        print(pk, '[PK], АХАХАХ')
+
+        if request.method == 'POST':
+            category = Category.objects.get(pk=pk)
+            form = CategoryEditForm(request.POST, instance=category)
+            if form.is_valid():
+                slug = slugify(form.cleaned_data['name'], allow_unicode=True)
+                for attr, value in form.cleaned_data.items():
+                    setattr(category, attr, value)
+                    category.save()
+                return redirect(f'/categories/{pk}')
+            return self.render_to_response({'form': form})
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class AddCategoryView(TemplateView):
+    template_name = 'add_category.html'
+    form = CategoryForm()
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        # pk = kwargs.get('pk')
+        # print(pk)
+        if request.method == 'POST':
+            # raise Exception()
+            form = CategoryForm(request.POST)
+            if form.is_valid():
+                slug = slugify(form.cleaned_data['name'], allow_unicode=True)
+                category = Category(**form.cleaned_data, slug=slug)
+                category.save()
+                print(slug, category)
+                return redirect('/categories')
+            return self.render_to_response({'form': form})
+
+
+class AddProductView(TemplateView):
+    template_name = 'add_product.html'
+
+    form = CategoryEditForm()
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
+
+
+class ChangeProductView(TemplateView):
+    template_name = 'change_product.html'
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         return context

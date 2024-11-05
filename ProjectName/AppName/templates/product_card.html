@@ -9,12 +9,15 @@
 {% endblock %}
 
 {% block content %}
-<div class="block-h3">
-        <a class="button" href="{% url 'categories' %}{{ pk }}">Назад</a>
-
+    <div class="block-h2">
         <h2>/{{ product.category }}/{{ product.name }}/</h2>
     </div>
-        <h4>Цена - {{ product.price }}</h4>
-        {{ product.descriptions }}
+    <div class="block-buttons">
+        <a class="button" href="{% url 'categories' %}{{ pk }}">Назад</a>
+        <a class="button" href="{{ pk2 }}/change">Изменить продукт</a>
+    </div>
+
+    <h4>Цена - {{ product.price }}</h4>
+    {{ product.descriptions }}
 
 {% endblock %}
