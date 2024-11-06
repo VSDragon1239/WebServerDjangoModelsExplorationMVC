@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Добавить категорию
+{% extends "base.html" %}
+{% block content %}
+    <div class="block-h2">
+        <h2>Добавить категорию</h2>
+    </div>
+
 
 <form action="{% url 'add_category' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Добавить новый продукт">
+    <div class="block-buttons">
+        <input class="button" type="submit" value="Добавить">
+        <a class="button" href="{% url 'categories' %}">Отмена</a>
+    </div>
 </form>
-</body>
-</html>
+{% endblock %}

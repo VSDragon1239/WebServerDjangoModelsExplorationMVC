@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Удалить продукт: {{ product.name }}</h2>
+  <p>Вы уверены, что хотите удалить этот продукт? Это действие необратимо.</p>
+  <form method="post">
+      {% csrf_token %}
+      <input type="submit" value="Удалить">
+      <a href="{% url 'change_product' pk=pk pk2=product.pk %}">Отмена</a>
+  </form>
+{% endblock %}

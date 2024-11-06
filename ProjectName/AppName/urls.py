@@ -1,6 +1,6 @@
 # AppName/urls.py
 from django.urls import path
-from AppName.views import IndexView, CategoriesView, ProductsView, ProductCardView, ChangeCategoryView, AddCategoryView, AddProductView, ChangeProductView
+from AppName.views import IndexView, CategoriesView, ProductsView, ProductCardView, ChangeCategoryView, AddCategoryView, AddProductView, ChangeProductView, DeleteCategoryView, DeleteProductView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),                                                 # Главная страница
@@ -9,7 +9,9 @@ urlpatterns = [
     path('categories/<int:pk>/products/<int:pk2>', ProductCardView.as_view(), name='card_product'),      # Страница продукта
 
     path('categories/<int:pk>/change', ChangeCategoryView.as_view(), name='change_category'),      # Страница изменения выбранной категории
+    path('categories/<int:pk>/delete', DeleteCategoryView.as_view(), name='delete_category'),      # Страница изменения выбранной категории
     path('categories/add', AddCategoryView.as_view(), name='add_category'),      # Страница изменения категорий (добавить)
     path('categories/<int:pk>/products/add', AddProductView.as_view(), name='add_product'),      # Страница изменения продуктов
     path('categories/<int:pk>/products/<int:pk2>/change', ChangeProductView.as_view(), name='change_product'),      # Страница изменения продукта
+    path('categories/<int:pk>/products/<int:pk2>/delete', DeleteProductView.as_view(), name='delete_product'),      # Страница изменения продукта
 ]

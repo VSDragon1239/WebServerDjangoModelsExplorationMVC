@@ -270,7 +270,7 @@ class DeleteCategoryView(TemplateView):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         category = get_object_or_404(Category, pk=pk)
-        return self.render_to_response({'category': category})
+        return self.render_to_response({'category': category, 'pk': pk})
 
     def post(self, request: HttpRequest, *args, **kwargs):
         pk = kwargs.get('pk')

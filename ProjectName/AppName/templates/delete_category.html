@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="block-h2">
+        <h2>Название объекта - {{ category.name }}</h2>
+        <h2>Тип объект - Категория</h2>
+        <h2>Действие - Удалить</h2>
+        <p>Вы уверены, что хотите удалить эту категорию?</p>
+        <p>Это действие необратимо!</p>
+    </div>
+  <form method="post">
+      {% csrf_token %}
+      <div class="block-buttons">
+          <input class="button" type="submit" value="Удалить">
+          <a class="button" href="{% url 'change_category' pk=pk %}">Отмена</a>
+      </div>
+  </form>
+{% endblock %}

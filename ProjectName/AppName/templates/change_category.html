@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Изменить категорию
+{% extends "base.html" %}
+{% block content %}
+    <div class="block-h2">
+        <h2>Изменить категорию</h2>
+    </div>
 
 <form action="{% url 'change_category' pk=pk %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Изменить категорию">
+    <div class="block-buttons">
+        <input class="button" type="submit" value="Изменить категорию">
+        <a class="button" href="{% url 'delete_category' pk=pk %}">Удалить категорию</a>
+    </div>
+    <a class="button" href="{% url 'products' pk=pk %}">Отмена</a>
 </form>
-
-<a href="{% url 'delete_category' pk=pk %}">Удалить категорию</a>
-</body>
-</html>
+{% endblock %}

@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Изменить продукт
+{% extends "base.html" %}
+{% block content %}
+    <div class="block-h2">
+        <h2>Изменить продукт</h2>
+    </div>
 
 <form action="{% url 'change_product' pk=pk pk2=pk2 %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Изменить продукт">
+    <div class="block-buttons">
+        <input class="button" type="submit" value="Изменить продукт">
+        <a class="button" href="{% url 'card_product' pk=pk pk2=pk2 %}">Отмена</a>
+    </div>
+    <a class="button" href="{% url 'delete_product' pk=pk pk2=pk2 %}">Удалить продукт</a>
 </form>
 
-<a href="{% url 'delete_product' pk=pk pk2=pk2 %}">Удалить продукт</a>
-</body>
-</html>
+
+{% endblock %}
