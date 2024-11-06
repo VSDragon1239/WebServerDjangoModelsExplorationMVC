@@ -6,5 +6,11 @@
 </head>
 <body>
 Добавить продукт
+
+<form action="{% url 'add_product' pk=pk %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Добавить новый продукт">
+</form>
 </body>
 </html>

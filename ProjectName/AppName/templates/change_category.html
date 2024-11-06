@@ -6,10 +6,13 @@
 </head>
 <body>
 Изменить категорию
+
 <form action="{% url 'change_category' pk=pk %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Изменить категорию">
 </form>
+
+<a href="{% url 'delete_category' pk=pk %}">Удалить категорию</a>
 </body>
 </html>

@@ -13,8 +13,8 @@
         <h2>/{{ product.category }}/{{ product.name }}/</h2>
     </div>
     <div class="block-buttons">
-        <a class="button" href="{% url 'categories' %}{{ pk }}">Назад</a>
-        <a class="button" href="{{ pk2 }}/change">Изменить продукт</a>
+        <a class="button" href="{% url 'products' pk=pk %}">Назад</a>
+        <a class="button" href="{% url 'change_product' pk=pk pk2=product.pk %}">Изменить продукт</a>
     </div>
 
     <h4>Цена - {{ product.price }}</h4>

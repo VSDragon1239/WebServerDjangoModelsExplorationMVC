@@ -9,11 +9,9 @@ from django.views.generic import TemplateView
 from AppName.viewmodels.categories_viewmodel import CategoriesViewModel
 from AppName.viewmodels.products_viewmodel import ProductsViewModel
 
-from AppName.forms import CategoryForm
+from AppName.forms import CategoryForm, CategoryEditForm, ProductsForm, ProductsEditForm
 
-from AppName.models import Category
-
-from AppName.forms import CategoryEditForm
+from AppName.models import Category, Product
 
 
 class IndexView(TemplateView):
@@ -105,13 +103,20 @@ class ProductCardView(TemplateView):
         self.filter_type = self.ProductsVM.set_type_filter('category_id')
 
         # self.filters_array.append(kwargs.get('pk'))
-        self.filters_array1 = kwargs.get('pk1')
+        self.filters_array1 = kwargs.get('pk')
+        print(self.filters_array1)
         self.filters_array2 = kwargs.get('pk2')
         # print(self.filters_array)
         self.products = self.ProductsVM.get_products(self.filters_array1)
         self.product = self.ProductsVM.get_product(self.filters_array2)
         print(self.products, self.product)
-        return super().get(request, *args, **kwargs)
+        # return super().get(request, *args, **kwargs)
+        return self.render_to_response({
+            'pk': self.filters_array1,
+            'pk2': self.filters_array2,
+            'products': self.products,
+            'product': self.product,
+        })
 
     def get_context_data(self, **kwargs):
         pk = kwargs.get('pk')  # Получаем значение pk
@@ -150,10 +155,10 @@ class ChangeCategoryView(TemplateView):
             category = Category.objects.get(pk=pk)
             form = CategoryEditForm(request.POST, instance=category)
             if form.is_valid():
-                slug = slugify(form.cleaned_data['name'], allow_unicode=True)
                 for attr, value in form.cleaned_data.items():
                     setattr(category, attr, value)
-                    category.save()
+                category.slug = slugify(form.cleaned_data['name'], allow_unicode=True)
+                category.save()
                 return redirect(f'/categories/{pk}')
             return self.render_to_response({'form': form})
 
@@ -189,23 +194,111 @@ class AddCategoryView(TemplateView):
 class AddProductView(TemplateView):
     template_name = 'add_product.html'
 
-    form = CategoryEditForm()
+    form = ProductsForm()
 
     def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
+        pk = kwargs.get('pk')
+        category = get_object_or_404(Category, pk=pk)
+        form = ProductsForm()
+        return self.render_to_response({'form': form, 'category': category, 'pk': pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        pk = kwargs.get('pk')
         context['form'] = self.form
+        context['pk'] = pk
         return context
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        pk = kwargs.get('pk')
+        category = get_object_or_404(Category, pk=pk)
+        if request.method == 'POST':
+            form = ProductsForm(request.POST)
+            if form.is_valid():
+                product = Product(**form.cleaned_data)
+                product.category = category
+                product.save()
+                print(product)
+                return redirect(f'/categories/{ pk }')
+            return self.render_to_response({'form': form, 'category': category})
 
 
 class ChangeProductView(TemplateView):
     template_name = 'change_product.html'
 
+    form = ProductsForm()
+
     def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
+        pk = kwargs.get('pk')
+        pk2 = kwargs.get('pk2')
+        product = get_object_or_404(Product, pk=pk2)
+        form = ProductsEditForm(instance=product)
+        return self.render_to_response({
+            'form': form,
+            'product': product,
+            'pk': pk,
+            'pk2': pk2,
+        })
 
     def get_context_data(self, **kwargs):
+        pk = kwargs.get('pk')
+        pk2 = kwargs.get('pk2')
         context = super().get_context_data(**kwargs)
+        context['form'] = self.form
+        context['pk'] = pk
+        context['pk2'] = pk2
         return context
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        pk = kwargs.get('pk')
+        pk2 = kwargs.get('pk2')
+        product = Product.objects.get(pk=pk2)
+        if request.method == 'POST':
+            form = ProductsEditForm(request.POST, instance=product)
+            if form.is_valid():
+                for attr, value in form.cleaned_data.items():
+                    setattr(product, attr, value)
+                product.save()
+                print(product)
+                return redirect(f'/categories/{pk}/products/{pk2}')
+            return self.render_to_response({'form': form})
+
+
+class DeleteCategoryView(TemplateView):
+    template_name = 'delete_category.html'
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        category = get_object_or_404(Category, pk=pk)
+        return self.render_to_response({'category': category})
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        pk = kwargs.get('pk')
+        category = get_object_or_404(Category, pk=pk)
+
+        # Удаляем категорию
+        category.delete()
+        return redirect('/categories')  # Перенаправляем на страницу со списком категорий
+
+
+class DeleteProductView(TemplateView):
+    template_name = 'delete_product.html'
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')  # pk категории
+        pk2 = kwargs.get('pk2')  # pk продукта
+        product = get_object_or_404(Product, pk=pk2)
+        return self.render_to_response({
+            'product': product,
+            'pk': pk,
+            'pk2': pk2,
+        })
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        pk = kwargs.get('pk')
+        pk2 = kwargs.get('pk2')
+        product = get_object_or_404(Product, pk=pk2)
+
+        # Удаляем продукт
+        product.delete()
+        return redirect(f'/categories/{pk}')  # Перенаправляем на страницу со списком продуктов в категории

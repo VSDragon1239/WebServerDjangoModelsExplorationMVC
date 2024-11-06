@@ -6,5 +6,13 @@
 </head>
 <body>
 Изменить продукт
+
+<form action="{% url 'change_product' pk=pk pk2=pk2 %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Изменить продукт">
+</form>
+
+<a href="{% url 'delete_product' pk=pk pk2=pk2 %}">Удалить продукт</a>
 </body>
 </html>

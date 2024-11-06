@@ -15,13 +15,13 @@
     </div>
     <div class="block-buttons">
         <a class="button" href="{% url 'categories' %}">Назад</a>
-        <a class="button" href="{{ pk }}/change">Изменить категорию</a>
-        <a class="button" href="{{ pk }}/products/add">Добавить продукт</a>
+        <a class="button" href="{% url 'change_category' pk=pk %}">Изменить категорию</a>
+        <a class="button" href="{% url 'add_product' pk=pk %}">Добавить продукт</a>
     </div>
 
     <div class="products">
         {% for product in products %}
-            <a href="{{ pk }}/products/{{ product.id }}">
+            <a href="{% url 'card_product' pk=pk pk2=product.pk %}">
                 <h3>{{ product.name }} - {{ product.price }}</h3>
             </a>
         {% endfor %}
